@@ -1,0 +1,27 @@
+import type { Locker } from '../types/portal';
+
+export const lockers: Locker[] = [
+{ id: 'A-01', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: 'Daniela Pérez', status: 'asignado' },
+{ id: 'A-02', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: 'José Martínez', status: 'asignado' },
+{ id: 'A-03', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: 'Carlos Rondón', status: 'asignado' },
+{ id: 'A-04', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: null, status: 'libre' },
+{ id: 'A-05', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: 'Ana Rojas', status: 'asignado' },
+{ id: 'A-06', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: null, status: 'mantenimiento' },
+{ id: 'A-07', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: 'Luis Gómez', status: 'asignado' },
+{ id: 'A-08', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: null, status: 'libre' },
+{ id: 'A-09', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: 'Patricia Salas', status: 'asignado' },
+{ id: 'A-10', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: null, status: 'libre' },
+{ id: 'A-11', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: 'Rafael Medina', status: 'asignado' },
+{ id: 'A-12', bank: 'A', location: 'Sede Caracas · Piso 1', type: 'rfid', assigneeName: null, status: 'libre' },
+{ id: 'B-01', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: 'Gabriela Torres', status: 'asignado' },
+{ id: 'B-02', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'libre' },
+{ id: 'B-03', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: 'Andrés Villalobos', status: 'asignado' },
+{ id: 'B-04', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'libre' },
+{ id: 'B-05', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'mantenimiento' },
+{ id: 'B-06', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: 'Valentina Ochoa', status: 'asignado' },
+{ id: 'B-07', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: 'María Fernández', status: 'asignado' },
+{ id: 'B-08', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'libre' },
+{ id: 'B-09', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'libre' },
+{ id: 'B-10', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'libre' },
+{ id: 'B-11', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'libre' },
+{ id: 'B-12', bank: 'B', location: 'Sede Caracas · Piso 2', type: 'digital', assigneeName: null, status: 'libre' }];
