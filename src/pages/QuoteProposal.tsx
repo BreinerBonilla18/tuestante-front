@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeftIcon, FileTextIcon, PrinterIcon } from 'lucide-react';
 import { ProposalSheet } from '../components/proposal/ProposalSheet';
 import { useQuote } from '../contexts/QuoteContext';
@@ -9,6 +10,7 @@ import { addDaysIso, todayIso } from '../utils/dates';
 
 export function QuoteProposal() {
   const { submitted, items } = useQuote();
+  const shouldReduceMotion = useReducedMotion();
   const draft: SubmittedQuote | null =
   !submitted && items.length > 0 ?
   {
@@ -24,7 +26,11 @@ export function QuoteProposal() {
   const quote = submitted ?? draft;
 
   return (
-    <div className="min-h-screen w-full bg-surface print:bg-white">
+    <motion.div
+      className="public-page-motion min-h-screen w-full bg-surface print:bg-white"
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
+      animate={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}>
       <div className="sticky top-0 z-10 border-b border-line bg-white print:hidden">
         <div className="mx-auto flex h-14 max-w-[880px] items-center justify-between px-4">
           <Link to="/cotizacion" className="inline-flex items-center gap-2 text-sm text-muted hover:text-ink">
@@ -57,6 +63,6 @@ export function QuoteProposal() {
           </div>
         }
       </main>
-    </div>);
+    </motion.div>);
 
 }

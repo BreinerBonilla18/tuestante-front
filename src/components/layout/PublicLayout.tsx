@@ -1,9 +1,12 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { PublicPageMotion } from './PublicPageMotion';
 import { SiteFooter } from './SiteFooter';
 import { SiteHeader } from './SiteHeader';
 
 export function PublicLayout() {
+  const location = useLocation();
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-white">
       <a
@@ -14,7 +17,9 @@ export function PublicLayout() {
       </a>
       <SiteHeader />
       <main id="contenido" className="flex-1">
-        <Outlet />
+        <PublicPageMotion key={location.pathname} revealSections={location.pathname !== '/'}>
+          <Outlet />
+        </PublicPageMotion>
       </main>
       <SiteFooter />
     </div>);

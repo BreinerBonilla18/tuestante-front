@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowRightIcon, SearchIcon } from 'lucide-react';
 import { Price } from '../components/Price';
 import { ProductPlaceholder } from '../components/ProductPlaceholder';
@@ -15,9 +16,19 @@ const popularSearches = [
 { label: 'Racks de carga pesada', to: '/producto/rack-industrial-pesado' },
 { label: 'Cajoneras móviles', to: '/producto/cajonera-movil-3' }];
 
+const reveal = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.23, 1, 0.32, 1] } }
+};
+
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } }
+};
 
 export function Home() {
   const navigate = useNavigate();
+  const shouldReduceMotion = useReducedMotion();
   const [query, setQuery] = useState('');
   const [previewColor, setPreviewColor] = useState(ralColors[4]);
 
@@ -29,13 +40,22 @@ export function Home() {
   return (
     <div className="w-full bg-white">
       <section className="mx-auto grid max-w-site items-center gap-10 px-4 py-12 md:px-6 lg:grid-cols-12 lg:gap-12 lg:py-20">
-        <div className="lg:col-span-6">
+        <motion.div
+          className="lg:col-span-6"
+          variants={stagger}
+          initial={shouldReduceMotion ? false : 'hidden'}
+          animate={shouldReduceMotion ? undefined : 'visible'}>
+          <motion.div variants={reveal}>
           <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight text-ink md:text-5xl lg:text-[56px]">
             Almacenamiento metálico, configurado para su espacio.
           </h1>
+          </motion.div>
+          <motion.div variants={reveal}>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
             Lockers inteligentes, cajoneras, estanterías y armarios fabricados en Venezuela, con pintura electrostática en colores RAL. Cotice en dólares o bolívares.
           </p>
+          </motion.div>
+          <motion.div variants={reveal}>
           <form onSubmit={submit} role="search" className="mt-8 flex max-w-xl">
             <label htmlFor="hero-search" className="sr-only">
               Buscar en el catálogo
@@ -57,6 +77,8 @@ export function Home() {
               Buscar
             </button>
           </form>
+          </motion.div>
+          <motion.div variants={reveal}>
           <p className="mt-4 text-sm text-muted">
             Más buscados:{' '}
             {popularSearches.map((item, i) =>
@@ -68,8 +90,13 @@ export function Home() {
               </React.Fragment>
             )}
           </p>
-        </div>
-        <div className="grid grid-cols-5 gap-3 lg:col-span-6">
+          </motion.div>
+        </motion.div>
+        <motion.div
+          className="grid grid-cols-5 gap-3 lg:col-span-6"
+          initial={shouldReduceMotion ? false : { opacity: 0, x: 24 }}
+          animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}>
           <ProductPlaceholder
             line="lockers"
             name="Locker Inteligente RFID 6 puertas"
@@ -82,7 +109,7 @@ export function Home() {
             <ProductPlaceholder line="estanterias" name="Estantería Media Carga" colorHex="#383E42" label="Estantería Media Carga" className="aspect-square" />
             <ProductPlaceholder line="cajoneras" name="Cajonera Móvil" colorHex="#CBD0CC" label="Cajonera Móvil" className="aspect-square" />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <section className="border-t border-line" aria-labelledby="ambientes-title">
@@ -95,11 +122,17 @@ export function Home() {
               Ver todo el catálogo <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
-          <div className="mt-8 grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          <motion.div
+            className="mt-8 grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+            variants={stagger}
+            initial={shouldReduceMotion ? false : 'hidden'}
+            whileInView={shouldReduceMotion ? undefined : 'visible'}
+            viewport={{ once: true, amount: 0.15 }}>
             {environments.map((env) => {
               const count = products.filter((p) => p.environments.includes(env.id)).length;
               return (
-                <Link key={env.id} to={`/catalogo/${env.id}`} className="group flex flex-col">
+                <motion.div key={env.id} variants={reveal} whileHover={shouldReduceMotion ? undefined : { y: -5 }}>
+                <Link to={`/catalogo/${env.id}`} className="group flex flex-col">
                   <ProductPlaceholder
                     line={env.featuredLine}
                     name={env.name}
@@ -111,10 +144,11 @@ export function Home() {
                     <span className="text-xs tabular-nums text-muted">{count} productos</span>
                   </div>
                   <p className="mt-1 text-sm leading-relaxed text-muted">{env.description}</p>
-                </Link>);
-
+                </Link>
+                </motion.div>
+              );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -128,12 +162,17 @@ export function Home() {
               Cada línea se fabrica en acero laminado en frío con calibres y tolerancias documentados en su ficha técnica.
             </p>
           </div>
-          <ul className="border-t border-line lg:col-span-8">
+          <motion.ul
+            className="border-t border-line lg:col-span-8"
+            variants={stagger}
+            initial={shouldReduceMotion ? false : 'hidden'}
+            whileInView={shouldReduceMotion ? undefined : 'visible'}
+            viewport={{ once: true, amount: 0.15 }}>
             {productLines.map((line) => {
               const lineProducts = products.filter((p) => p.line === line.id);
               const from = Math.min(...lineProducts.map((p) => p.basePriceUsd));
               return (
-                <li key={line.id} className="border-b border-line">
+                <motion.li key={line.id} variants={reveal} className="border-b border-line">
                   <Link
                     to={`/catalogo?linea=${line.id}`}
                     className="group grid grid-cols-[56px_1fr_auto] items-center gap-5 py-5 transition-colors duration-150 hover:bg-surface md:grid-cols-[72px_1fr_160px_24px] md:px-3">
@@ -150,16 +189,20 @@ export function Home() {
                     </div>
                     <ArrowRightIcon className="h-5 w-5 text-muted transition-transform duration-150 ease-out group-hover:translate-x-1 group-hover:text-accent" aria-hidden="true" />
                   </Link>
-                </li>);
+                </motion.li>);
 
             })}
-          </ul>
+          </motion.ul>
         </div>
       </section>
 
       <section className="bg-surface" aria-labelledby="configurador-title">
         <div className="mx-auto grid max-w-site items-center gap-12 px-4 py-16 md:px-6 lg:grid-cols-2 lg:py-20">
-          <div>
+          <motion.div
+            variants={reveal}
+            initial={shouldReduceMotion ? false : 'hidden'}
+            whileInView={shouldReduceMotion ? undefined : 'visible'}
+            viewport={{ once: true, amount: 0.2 }}>
             <h2 id="configurador-title" className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
               Configure antes de cotizar
             </h2>
@@ -190,8 +233,13 @@ export function Home() {
               
               Configurar un locker RFID <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
             </Link>
-          </div>
-          <div className="bg-white p-6 md:p-10">
+          </motion.div>
+          <motion.div
+            className="bg-white p-6 md:p-10"
+            variants={reveal}
+            initial={shouldReduceMotion ? false : 'hidden'}
+            whileInView={shouldReduceMotion ? undefined : 'visible'}
+            viewport={{ once: true, amount: 0.2 }}>
             <div className="flex aspect-[4/3] items-center justify-center">
               <ProductSilhouette line="lockers" colorHex={previewColor.hex} lock="rfid" className="h-full w-auto" />
             </div>
@@ -217,28 +265,38 @@ export function Home() {
                 )}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       <section className="bg-accent text-white" aria-labelledby="b2b-title">
         <div className="mx-auto grid max-w-site gap-10 px-4 py-16 md:px-6 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
+          <motion.div
+            className="lg:col-span-7"
+            variants={reveal}
+            initial={shouldReduceMotion ? false : 'hidden'}
+            whileInView={shouldReduceMotion ? undefined : 'visible'}
+            viewport={{ once: true, amount: 0.2 }}>
             <h2 id="b2b-title" className="text-3xl font-semibold tracking-tight md:text-4xl">
               ¿Equipa una sede completa?
             </h2>
             <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/80">
               Arme una cotización con varios productos y reciba una propuesta comercial en PDF con desglose técnico, IVA del {Math.round(pricing.ivaRate * 100)} % y montos en USD y VES, válida por {pricing.validityDays} días.
             </p>
-          </div>
-          <div className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+          </motion.div>
+          <motion.div
+            className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end"
+            variants={reveal}
+            initial={shouldReduceMotion ? false : 'hidden'}
+            whileInView={shouldReduceMotion ? undefined : 'visible'}
+            viewport={{ once: true, amount: 0.2 }}>
             <Link to="/cotizacion" className="inline-flex h-12 items-center rounded bg-white px-6 text-sm font-semibold text-accent transition-colors duration-150 hover:bg-accent-soft">
               Iniciar cotización
             </Link>
             <Link to="/fichas-tecnicas" className="inline-flex h-12 items-center rounded border border-white/40 px-6 text-sm font-medium text-white transition-colors duration-150 hover:border-white">
               Ver fichas técnicas
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>);
